@@ -3,7 +3,9 @@
 export interface Product {
   _id: string;
   name: string;
-  image: string;
+  images: string[]; // مصفوفة الصور
+  image: string;    // أول صورة (virtual من الباك إند)
+  description?: string;
   price: number;
   unit: "كيلو" | "قطعة";
   inStock: boolean;
