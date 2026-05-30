@@ -41,7 +41,7 @@ export default async function Home() {
               <span className="text-indigo-500 block mt-2">طريقة للطلب</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-300 mb-12 max-w-2xl leading-relaxed">
-              نظام FastOrder لطلب وجباتك المفضلة أونلاين. نوفر لك أسرع تجربة
+              نظام FastOrder لطلب احتيجاتك المفضلة أونلاين. نوفر لك أسرع تجربة
               توصيل وأفضل العروض في مدينتك.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -61,20 +61,26 @@ export default async function Home() {
                 <Tag className="w-6 h-6" />
               </Link>
             </div>
-            
+
             {/* المميزات */}
             <div className="mt-16 flex flex-wrap justify-center gap-4 md:gap-6 text-white/90">
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-xl border border-white/10 shadow-sm">
                 <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
-                <span className="text-sm md:text-base font-bold">توصيل سريع</span>
+                <span className="text-sm md:text-base font-bold">
+                  توصيل سريع
+                </span>
               </div>
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-xl border border-white/10 shadow-sm">
                 <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
-                <span className="text-sm md:text-base font-bold">جودة مضمونة</span>
+                <span className="text-sm md:text-base font-bold">
+                  جودة مضمونة
+                </span>
               </div>
               <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-xl border border-white/10 shadow-sm">
                 <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
-                <span className="text-sm md:text-base font-bold">عروض يومية</span>
+                <span className="text-sm md:text-base font-bold">
+                  عروض يومية
+                </span>
               </div>
             </div>
           </div>

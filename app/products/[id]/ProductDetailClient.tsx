@@ -10,6 +10,9 @@ import {
   Minus,
   ChevronLeft,
   ChevronRight,
+  Tag,
+  PackageCheck,
+  PackageX,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -25,6 +28,7 @@ export default function ProductDetailClient({
   const [added, setAdded] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
 
+  // دعم الصور الجديدة (images[]) والقديمة (image)
   const images =
     product.images && product.images.length > 0
       ? product.images
@@ -51,55 +55,56 @@ export default function ProductDetailClient({
   const nextImage = () =>
     setActiveIdx((i) => (i === images.length - 1 ? 0 : i + 1));
 
+  const total = product.price * quantity;
+
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-16" dir="rtl">
-      <div className="container mx-auto px-4 max-w-5xl">
+    <div className="py-8 px-4">
+      <div className="container mx-auto max-w-5xl">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-            {/* ---- قسم الصور ---- */}
-            <div className="bg-gray-50 p-6 flex flex-col gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* ════════════════ قسم الصور ════════════════ */}
+            <div className="bg-gradient-to-br from-gray-50 to-indigo-50/30 p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-l border-gray-100">
               {/* الصورة الرئيسية */}
-              <div className="relative aspect-square rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm">
                 {images.length > 0 ? (
                   <Image
                     src={images[activeIdx]}
                     alt={`${product.name} - صورة ${activeIdx + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain p-4"
+                    className="object-contain p-6 transition-opacity duration-200"
                     priority
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300">
-                    لا توجد صورة
+                  <div className="w-full h-full flex flex-col items-center justify-center text-gray-300 gap-3">
+                    <Tag className="w-16 h-16 opacity-30" />
+                    <span className="text-sm">لا توجد صورة</span>
                   </div>
                 )}
 
-                {/* أسهم التنقل بين الصور */}
+                {/* أسهم التنقل */}
                 {images.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-gray-700 hover:text-indigo-600 transition-colors z-10"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:shadow-indigo-100 transition-all z-10"
                       aria-label="الصورة السابقة"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-gray-700 hover:text-indigo-600 transition-colors z-10"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:shadow-indigo-100 transition-all z-10"
                       aria-label="الصورة التالية"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
-                  </>
-                )}
 
-                {/* مؤشر رقم الصورة */}
-                {images.length > 1 && (
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2.5 py-1 rounded-full font-medium">
-                    {activeIdx + 1} / {images.length}
-                  </div>
+                    {/* مؤشر الصور */}
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-3 py-1 rounded-full font-medium">
+                      {activeIdx + 1} / {images.length}
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -110,10 +115,10 @@ export default function ProductDetailClient({
                     <button
                       key={idx}
                       onClick={() => setActiveIdx(idx)}
-                      className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${
+                      className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
                         activeIdx === idx
-                          ? "border-indigo-500 shadow-md shadow-indigo-100"
-                          : "border-gray-200 hover:border-indigo-300"
+                          ? "border-indigo-500 shadow-md shadow-indigo-100 scale-105"
+                          : "border-gray-200 hover:border-indigo-300 opacity-70 hover:opacity-100"
                       }`}
                       aria-label={`صورة ${idx + 1}`}
                     >
@@ -130,63 +135,68 @@ export default function ProductDetailClient({
               )}
             </div>
 
-            {/* ---- تفاصيل المنتج ---- */}
-            <div className="p-6 md:p-8 flex flex-col">
-              {/* الاسم */}
-              <div className="mb-2">
-                <span className="text-xs bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full font-bold">
+            {/* ════════════════ تفاصيل المنتج ════════════════ */}
+            <div className="p-6 md:p-8 flex flex-col gap-5">
+              {/* الوحدة + الاسم */}
+              <div>
+                <span className="inline-block text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-bold mb-3">
                   {product.unit}
                 </span>
+                <h1 className="text-2xl md:text-3xl font-black text-gray-800 leading-tight">
+                  {product.name}
+                </h1>
               </div>
-              <h1 className="text-2xl md:text-3xl font-black text-gray-800 mb-3">
-                {product.name}
-              </h1>
 
               {/* الوصف */}
-              {product.description && (
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-5 border-b border-gray-100 pb-5">
+              {product.description ? (
+                <p className="text-gray-500 text-sm md:text-base leading-relaxed border-t border-gray-100 pt-4">
                   {product.description}
                 </p>
-              )}
+              ) : null}
 
               {/* السعر */}
-              <div className="mb-6">
-                <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">
+              <div className="border-t border-gray-100 pt-4">
+                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">
                   السعر
                 </p>
-                <span className="text-4xl font-black text-indigo-600 flex items-baseline gap-2">
-                  {product.price}
-                  <span className="text-base font-medium text-gray-500">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-black text-indigo-600">
+                    {product.price.toLocaleString("ar-EG")}
+                  </span>
+                  <span className="text-base font-medium text-gray-400">
                     جنيه / {product.unit}
                   </span>
-                </span>
+                </div>
               </div>
 
               {/* حالة التوفر */}
-              <div className="mb-6">
+              <div>
                 {product.inStock ? (
                   <span className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-bold border border-emerald-200">
-                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                    <PackageCheck className="w-4 h-4" />
                     متوفر في المخزن
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold border border-red-200">
-                    <span className="w-2 h-2 bg-red-500 rounded-full" />
+                    <PackageX className="w-4 h-4" />
                     غير متوفر حالياً
                   </span>
                 )}
               </div>
 
+              {/* التحكم في الكمية + الإجمالي + الزر */}
               {product.inStock && (
-                <div className="mt-auto space-y-4">
-                  {/* التحكم في الكمية */}
+                <div className="border-t border-gray-100 pt-5 space-y-4 mt-auto">
+                  {/* الكمية */}
                   <div>
                     <p className="text-sm font-bold text-gray-600 mb-2">
                       الكمية
                     </p>
-                    <div className="flex items-center gap-4 bg-gray-50 rounded-xl p-3 border border-gray-100 w-fit">
+                    <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-2 border border-gray-100 w-fit">
                       <button
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        onClick={() =>
+                          setQuantity(Math.max(1, quantity - 1))
+                        }
                         className="w-9 h-9 flex items-center justify-center bg-white rounded-lg text-gray-600 hover:text-red-500 shadow-sm border border-gray-100 transition-colors"
                         aria-label="تقليل الكمية"
                       >
@@ -206,26 +216,25 @@ export default function ProductDetailClient({
                   </div>
 
                   {/* الإجمالي */}
-                  <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-bold text-indigo-700">
-                        الإجمالي
-                      </span>
-                      <span className="text-2xl font-black text-indigo-700">
-                        {(product.price * quantity).toLocaleString("ar-EG")}{" "}
-                        <span className="text-sm font-medium">جنيه</span>
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between bg-indigo-50 rounded-xl px-5 py-3 border border-indigo-100">
+                    <span className="text-sm font-bold text-indigo-700">
+                      الإجمالي
+                    </span>
+                    <span className="text-2xl font-black text-indigo-700 flex items-baseline gap-1">
+                      {total.toLocaleString("ar-EG")}
+                      <span className="text-sm font-medium">جنيه</span>
+                    </span>
                   </div>
 
-                  {/* زر الإضافة */}
+                  {/* زر الإضافة للسلة */}
                   <button
+                    id="add-to-cart-btn"
                     onClick={handleAddToCart}
                     disabled={added}
-                    className={`w-full py-4 rounded-xl font-black flex items-center justify-center gap-3 transition-all duration-300 transform active:scale-95 shadow-lg text-base ${
+                    className={`w-full py-4 rounded-xl font-black flex items-center justify-center gap-3 text-base transition-all duration-300 active:scale-95 ${
                       added
-                        ? "bg-gray-800 text-white"
-                        : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-200"
+                        ? "bg-gray-800 text-white shadow-none"
+                        : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200 hover:shadow-indigo-300"
                     }`}
                   >
                     {added ? (
