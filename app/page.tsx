@@ -29,7 +29,7 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 flex items-center justify-center overflow-hidden bg-slate-900">
         {/* خلفية داكنة ثابتة */}
-        <div className="absolute inset-0 bg-slate-900"></div>
+        <div className="absolute inset-0 bg-slate-900 h-screen"></div>
         {/* أشكال هندسية خفيفة جداً لكسر الملل مع الالتزام بالألوان الثابتة */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-600 rounded-full opacity-10 blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500 rounded-full opacity-10 blur-3xl translate-y-1/3 -translate-x-1/3"></div>
